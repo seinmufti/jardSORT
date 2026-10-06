@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 
+import { useLocale } from '@/i18n/LocaleProvider'
 import type { RodPlan } from '@/lib/rodPacking'
 import { ROD_LENGTH_CM } from '@/lib/rodPacking'
 
@@ -25,13 +26,17 @@ function SegmentLengthLabel({ value }: { value: number }) {
 }
 
 export function RodCutBar({ rod }: RodCutBarProps) {
+  const { t } = useLocale()
+
   return (
     <div className="flex flex-col gap-2">
-      <p className="text-center text-base font-medium">Rod {rod.rodIndex}</p>
+      <p className="text-center text-base font-medium">
+        {t('plan.rod', { n: rod.rodIndex })}
+      </p>
       <div
         className="flex h-[max(2.5rem,calc(5rem-4svh))] w-full overflow-hidden border-2 border-foreground box-border"
         role="img"
-        aria-label={`Rod ${rod.rodIndex} of ${ROD_LENGTH_CM} cm: ${rod.cutsCm.map((c) => `${c} cm`).join(', ')}${rod.leftoverCm > 0 ? `, ${rod.leftoverCm} cm leftover` : ''}`}
+        aria-label={`${t('plan.rod', { n: rod.rodIndex })} (${ROD_LENGTH_CM} cm): ${rod.cutsCm.map((c) => `${c} cm`).join(', ')}${rod.leftoverCm > 0 ? `, ${rod.leftoverCm} cm leftover` : ''}`}
       >
         {rod.cutsCm.map((cutCm, index) => (
           <div

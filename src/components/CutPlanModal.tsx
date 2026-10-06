@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
+import { useLocale } from '@/i18n/LocaleProvider'
 import { summarizeLeftovers } from '@/lib/leftoverSummary'
 import type { PlanResult } from '@/lib/rodPacking'
 
@@ -18,6 +19,7 @@ type CutPlanModalProps = {
 }
 
 export function CutPlanModal({ open, onOpenChange, plan }: CutPlanModalProps) {
+  const { t } = useLocale()
   const success = plan?.ok === true ? plan : null
   const error = plan?.ok === false ? plan.error : null
 
@@ -27,13 +29,13 @@ export function CutPlanModal({ open, onOpenChange, plan }: CutPlanModalProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[85svh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Rod cut plan</DialogTitle>
+          <DialogTitle>{t('plan.title')}</DialogTitle>
         </DialogHeader>
 
         {error && (
           <Alert variant="destructive">
             <AlertCircle />
-            <AlertTitle>Cannot calculate</AlertTitle>
+            <AlertTitle>{t('plan.cannotCalculate')}</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
@@ -50,14 +52,14 @@ export function CutPlanModal({ open, onOpenChange, plan }: CutPlanModalProps) {
 
             {leftovers && leftovers.totalCm > 0 && (
               <div className="space-y-2 text-center text-base">
-                <p className="font-medium">Leftovers:</p>
-                <p>Total: {leftovers.totalCm}cm</p>
+                <p className="font-medium">{t('plan.leftovers')}</p>
+                <p>{t('plan.total', { cm: leftovers.totalCm })}</p>
                 <div>
-                  <p>Pieces:</p>
+                  <p>{t('plan.pieces')}</p>
                   <ul className="mt-1 space-y-0.5">
                     {leftovers.pieces.map(({ cm, count }) => (
                       <li key={cm}>
-                        {cm}cm x{count}
+                        {t('plan.leftoverPiece', { cm, count })}
                       </li>
                     ))}
                   </ul>
