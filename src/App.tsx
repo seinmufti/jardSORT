@@ -8,6 +8,7 @@ import {
 } from '@/components/MeasurementRow'
 import { Button } from '@/components/ui/button'
 import { parseRow } from '@/lib/parseMeasurements'
+import { generateRandomDummyRows } from '@/lib/randomDummyData'
 import { planFromMeasurements, type PlanResult } from '@/lib/rodPacking'
 
 function newRowId(): string {
@@ -25,10 +26,6 @@ function newRow(): MeasurementRowData {
     qty: '1',
   }
 }
-
-const DUMMY_ROWS: Pick<MeasurementRowData, 'width' | 'height' | 'qty'>[] = [
-  { width: '300', height: '100', qty: '2' },
-]
 
 function App() {
   const [rows, setRows] = useState<MeasurementRowData[]>(() => [newRow()])
@@ -65,7 +62,7 @@ function App() {
 
   const loadDummyData = useCallback(() => {
     setRows(
-      DUMMY_ROWS.map((row) => ({
+      generateRandomDummyRows().map((row) => ({
         id: newRowId(),
         width: row.width,
         height: row.height,
@@ -84,7 +81,7 @@ function App() {
               size="icon-lg"
               className="absolute top-0 right-0 size-16 rounded-2xl bg-muted text-4xl hover:bg-muted/80"
               onClick={loadDummyData}
-              aria-label="Load dummy test data"
+              aria-label="Load random sample measurements"
             >
               🧪
             </Button>
