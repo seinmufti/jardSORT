@@ -31,7 +31,7 @@ function SheetOverlay({
     <SheetPrimitive.Backdrop
       data-slot="sheet-overlay"
       className={cn(
-        "fixed inset-0 z-50 min-h-dvh bg-black/25 transition-opacity duration-300 ease-out data-ending-style:opacity-0 data-starting-style:opacity-0 supports-[-webkit-touch-callout:none]:absolute",
+        "fixed inset-0 z-50 bg-black/25 transition-opacity duration-300 ease-out data-ending-style:opacity-0 data-starting-style:opacity-0",
         className,
       )}
       {...props}
@@ -57,11 +57,11 @@ function SheetContent({
       <SheetPrimitive.Popup
         data-slot="sheet-content"
         className={cn(
-          "fixed z-[51] flex h-full flex-col gap-4 bg-popover p-4 text-popover-foreground shadow-lg ring-1 ring-foreground/10 outline-none transition-transform duration-300 ease-out will-change-transform",
+          "fixed z-[51] flex flex-col gap-4 bg-popover p-4 text-popover-foreground shadow-lg ring-1 ring-foreground/10 outline-none transition-transform duration-300 ease-out will-change-transform",
           side === "right" &&
-            "inset-y-0 right-0 w-[min(100%,20rem)] border-l data-ending-style:translate-x-full data-starting-style:translate-x-full",
+            "top-[env(safe-area-inset-top,0px)] right-0 bottom-[env(safe-area-inset-bottom,0px)] w-[min(100%,20rem)] border-l data-ending-style:translate-x-full data-starting-style:translate-x-full",
           side === "left" &&
-            "inset-y-0 left-0 w-[min(100%,20rem)] border-r data-ending-style:-translate-x-full data-starting-style:-translate-x-full",
+            "top-[env(safe-area-inset-top,0px)] bottom-[env(safe-area-inset-bottom,0px)] left-0 w-[min(100%,20rem)] border-r data-ending-style:-translate-x-full data-starting-style:-translate-x-full",
           className,
         )}
         {...props}

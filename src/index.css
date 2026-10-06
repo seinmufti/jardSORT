@@ -79,10 +79,10 @@
   html,
   body,
   #root {
-    @apply min-h-svh w-full;
+    @apply min-h-svh w-full bg-background;
   }
 
   body {
-    @apply bg-background text-base text-foreground antialiased;
+    @apply text-base text-foreground antialiased;
   }
 }

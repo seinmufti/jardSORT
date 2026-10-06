@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Calculator, Plus, Settings } from 'lucide-react'
 
 import { CutPlanModal } from '@/components/CutPlanModal'
@@ -11,6 +11,10 @@ import { Button } from '@/components/ui/button'
 import { useLocale } from '@/i18n/LocaleProvider'
 import { parseRow } from '@/lib/parseMeasurements'
 import { generateRandomDummyRows } from '@/lib/randomDummyData'
+import {
+  persistMeasurementRows,
+  readStoredMeasurementRows,
+} from '@/lib/measurementStorage'
 import { planFromMeasurements, type PlanResult } from '@/lib/rodPacking'
 
 function newRowId(): string {
@@ -31,7 +35,13 @@ function newRow(): MeasurementRowData {
 
 function App() {
   const { t } = useLocale()
-  const [rows, setRows] = useState<MeasurementRowData[]>(() => [newRow()])
+  const [rows, setRows] = useState<MeasurementRowData[]>(
+    () => readStoredMeasurementRows() ?? [newRow()],
+  )
+
+  useEffect(() => {
+    persistMeasurementRows(rows)
+  }, [rows])
   const [planOpen, setPlanOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [plan, setPlan] = useState<PlanResult | null>(null)
